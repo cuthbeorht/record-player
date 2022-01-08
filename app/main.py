@@ -5,4 +5,4 @@ from app.routers.recordings import router as audio_router
 app = FastAPI()
 
 app.include_router(health_router)
-app.include_router(audio_router)
+app.include_router(audio_router, prefix="/recordings")
