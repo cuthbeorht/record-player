@@ -1,2 +1,3 @@
-# record-player
-An online web-based app to play recorded files
+# Simple Todo App
+
+This is a simple todo app

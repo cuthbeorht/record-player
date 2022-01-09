@@ -1,8 +1,12 @@
 from pydantic import BaseModel
-from typing import List
+from typing import List, Optional
+from datetime import datetime
 
-class Recording(BaseModel):
-    path: str
+class Todo(BaseModel):
+    title: str
+    description: Optional[str]
+    date_created: datetime = datetime.now()
+    created_by: Optional[str]
 
 
 class Service:
@@ -19,14 +23,14 @@ class Service:
         """
         self.db = database
 
-    async def get_recordings(self) -> List[Recording]:
+    async def get_todos(self) -> List[Todo]:
         """
         Get all recordings.
 
         :return: List[Recording]
         """
 
-        recordings = [Recording(**{"path": "recordings/2021-12-27_19-35-02.mp3"})]
-        print(f"Recordings: {recordings}")
+        todos = [Todo(**{"title": "recordings/2021-12-27_19-35-02.mp3"})]
+        print(f"Todos: {todos}")
 
-        return recordings
+        return todos
