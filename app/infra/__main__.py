@@ -1,10 +1,17 @@
 """An AWS Python Pulumi program"""
 
 import pulumi
-from pulumi_aws import s3
+import pulumi_aws as aws
 
-# Create an AWS resource (S3 Bucket)
-bucket = s3.Bucket('my-bucket')
+# # Create an AWS resource (S3 Bucket)
+# bucket = aws.s3.Bucket('my-bucket')
+#
+# # Export the name of the bucket
+# pulumi.export('bucket_name', bucket.id)
 
-# Export the name of the bucket
-pulumi.export('bucket_name', bucket.id)
+# Create a RestAPI
+
+todo_rest_api = aws.apigateway.RestApi(
+    "TodoRestApi",
+    description="This is the API Gateway used for the Todo app"
+)
