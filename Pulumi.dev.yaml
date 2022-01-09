@@ -1,0 +1,4 @@
+encryptionsalt: v1:X5qZVaSLzb8=:v1:XIb0wPSJzH4S3odi:hipLscHIYqCHKjFqhs3iiMeDpKFqIw==
+config:
+  aws:region: us-east-1
+  aws:profile: pulumi-bot
