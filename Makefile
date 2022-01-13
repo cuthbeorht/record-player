@@ -10,3 +10,11 @@ clean:
 
 run-dev:
 	uvicorn app.main:app --reload
+
+bundle:
+	rm -rf dist/
+	mkdir dist
+	cp -r app dist
+	(cd dist && zip -r lambda.zip app -x \*/__pycache__/\*)
+	(cd dist && zip -r lambda.zip  ../venv/lib/python3.8/site-packages -x \*/__pycache__/\*)
+	rm -rf dist/app

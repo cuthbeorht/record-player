@@ -1,10 +1,36 @@
 """An AWS Python Pulumi program"""
 
 import pulumi
-from pulumi_aws import s3
+import pulumi_aws as aws
 
-# Create an AWS resource (S3 Bucket)
-bucket = s3.Bucket('my-bucket')
+# Create Health AWS Lambda
+iam_for_health_lambda = aws.iam.Role(
+    "iamHealthLambda",
+    assume_role_policy="""{
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Action": "sts:AssumeRole",
+                "Principal": {
+                    "Service": "lambda.amazonaws.com"
+                },
+                "Effect": "Allow",
+                "Sid": ""             
+            }
+        ]
+    }
+    """
+)
 
-# Export the name of the bucket
-pulumi.export('bucket_name', bucket.id)
+health_lambda = aws.lambda_.Function(
+    "healthLambda",
+    code=pulumi.FileArchive("../../dist/lambda.zip"),
+    role=iam_for_health_lambda.arn,
+    handler="app.lambda.handlers",
+    runtime="python3.8",
+    environment=aws.lambda_.FunctionEnvironmentArgs(
+        variables={
+            "foo": "bar"
+        }
+    )
+)
