@@ -18,6 +18,7 @@ tests:
 bundle:
 	rm -rf dist/
 	mkdir dist
-	cp -R app/* dist
-	(cd dist && zip -r lambda.zip app -x \*/__pycache__/\*)
-	(cd dist && zip -r lambda.zip  ../venv/lib/python3.8/site-packages -x \*/__pycache__/\*)
+	cp -R app dist
+	cp -R ./venv/lib/python3.8/site-packages/* dist
+	(cd dist && zip -r lambda.zip . -x \**/__pycache__/\*)
+	#(cd dist && zip -r lambda.zip  ../venv/lib/python3.8/site-packages -x \*/__pycache__/\*)

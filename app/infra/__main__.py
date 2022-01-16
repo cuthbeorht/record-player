@@ -26,7 +26,7 @@ health_lambda = aws.lambda_.Function(
     "healthLambda",
     code=pulumi.FileArchive("../../dist/lambda.zip"),
     role=iam_for_health_lambda.arn,
-    handler="app.lambda.handlers",
+    handler="app.lambda.handler",
     runtime="python3.8",
     environment=aws.lambda_.FunctionEnvironmentArgs(
         variables={
