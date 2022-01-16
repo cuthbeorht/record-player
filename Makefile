@@ -4,6 +4,7 @@ versions:
 
 deps:
 	pip install -r requirements.txt
+	@pip freeze > requirements.txt
 
 clean:
 	@echo "pass"
