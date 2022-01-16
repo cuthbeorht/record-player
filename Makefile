@@ -11,6 +11,9 @@ clean:
 run-dev:
 	uvicorn app.main:app --reload
 
+tests:
+	pytest --version
+
 bundle:
 	rm -rf dist/
 	mkdir dist
