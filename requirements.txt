@@ -2,6 +2,8 @@ anyio==3.4.0
 Arpeggio==1.10.2
 asgiref==3.4.1
 attrs==21.4.0
+certifi==2021.10.8
+charset-normalizer==2.0.10
 click==8.0.3
 dill==0.3.4
 fastapi==0.70.1
@@ -21,10 +23,12 @@ pydantic==1.8.2
 pyparsing==3.0.6
 pytest==6.2.5
 PyYAML==6.0
+requests==2.27.1
 semver==2.13.0
 six==1.16.0
 sniffio==1.2.0
 starlette==0.16.0
 toml==0.10.2
 typing_extensions==4.0.1
+urllib3==1.26.8
 uvicorn==0.16.0

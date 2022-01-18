@@ -12,8 +12,8 @@ clean:
 run-dev:
 	uvicorn app.main:app --reload
 
-tests:
-	pytest --version
+test-unit:
+	pytest ./tests
 
 bundle:
 	rm -rf dist/
