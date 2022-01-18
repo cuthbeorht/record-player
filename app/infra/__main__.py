@@ -34,3 +34,7 @@ health_lambda = aws.lambda_.Function(
         }
     )
 )
+
+health_api_gateway = aws.apigateway.RestApi(
+    "health_apigateway"
+)
