@@ -4,6 +4,7 @@ versions:
 
 deps:
 	pip install -r requirements.txt
+	@pip freeze > requirements.txt
 
 clean:
 	@echo "pass"
@@ -11,10 +12,14 @@ clean:
 run-dev:
 	uvicorn app.main:app --reload
 
+test-unit:
+	pytest ./tests
+
 bundle:
 	rm -rf dist/
 	mkdir dist
-	cp -r app dist
-	(cd dist && zip -r lambda.zip app -x \*/__pycache__/\*)
-	(cd dist && zip -r lambda.zip  ../venv/lib/python3.8/site-packages -x \*/__pycache__/\*)
-	rm -rf dist/app
+	cp -R app dist
+	cp -R ./venv/lib/python3.8/site-packages/* dist
+	(cd dist && zip -r lambda.zip . -x \**/__pycache__/\*)
+	find ./dist ! -name 'lambda.zip' -type f -exec rm -f {} +
+	find ./dist/* ! -name 'lambda.zip' -type d -exec rm -rf {} +
