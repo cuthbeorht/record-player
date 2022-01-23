@@ -2,6 +2,12 @@
 
 import pulumi
 import pulumi_aws as aws
+import datetime
+
+health_api_gateway_log_group = aws.cloudwatch.LogGroup(
+    "health_api_gateway_log_group",
+    name="health_api"
+)
 
 # Create Health AWS Lambda
 iam_for_health_lambda = aws.iam.Role(
@@ -22,6 +28,34 @@ iam_for_health_lambda = aws.iam.Role(
     """
 )
 
+policy_for_health_lambda_logging = aws.iam.Policy(
+    "health_api_gateway_lambda_loggin_policy",
+    path="/",
+    description="IAM policy for logging from a lambda",
+    policy="""{
+      "Version": "2012-10-17",
+      "Statement": [
+        {
+          "Action": [
+            "logs:CreateLogGroup",
+            "logs:CreateLogStream",
+            "logs:PutLogEvents"
+          ],
+          "Resource": "arn:aws:logs:*:*:*",
+          "Effect": "Allow"
+        }
+      ]
+    }
+    """
+)
+
+## Attach logging policy to IAM Role
+health_api_gateway_logging_policy_attachment = aws.iam.RolePolicyAttachment(
+    "health_api_gateway_logging",
+    role=iam_for_health_lambda.name,
+    policy_arn=policy_for_health_lambda_logging.arn
+)
+
 health_lambda = aws.lambda_.Function(
     "healthLambda",
     code=pulumi.FileArchive("../../dist/lambda.zip"),
@@ -38,6 +72,8 @@ health_lambda = aws.lambda_.Function(
 health_api_gateway = aws.apigateway.RestApi(
     "health_apigateway"
 )
+
+
 
 health_api_gateway_resource = aws.apigateway.Resource(
     "health_api_gateway_resource",
@@ -56,6 +92,22 @@ health_api_gateway_method = aws.apigateway.Method(
         resource_id=health_api_gateway_resource.id,
         rest_api=health_api_gateway.id
     )
+)
+
+health_api_gateway_deployment = aws.apigateway.Deployment(
+    "health_deployment",
+    rest_api=health_api_gateway.id,
+    triggers={
+        "date": str(datetime.datetime.now())
+    },
+    opts=pulumi.ResourceOptions(depends_on=health_api_gateway_method)
+)
+
+health_api_gateway_stage = aws.apigateway.Stage(
+    "health_api_gateway_stage",
+    deployment=health_api_gateway_deployment.id,
+    rest_api=health_api_gateway.id,
+    stage_name="test"
 )
 
 health_api_gateway_integration = aws.apigateway.Integration(
