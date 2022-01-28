@@ -182,7 +182,7 @@ health_api_gateway_stage = aws.apigateway.Stage(
 )
 
 health_api_gateway_method_settings=aws.apigateway.MethodSettings(
-    "health_api_gatewqay_method_sttings_all",
+    "health_api_gateway_method_settings_all",
     rest_api=health_api_gateway.id,
     stage_name=health_api_gateway_stage.stage_name,
     method_path="*/*",
