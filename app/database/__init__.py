@@ -25,5 +25,7 @@ class DatabaseConnection:
             future=True
         )
 
+        print(f"Debug info: {self.engine.pool.status()}")
+
     def _connect(self):
         self.connection = self.engine.connect()
