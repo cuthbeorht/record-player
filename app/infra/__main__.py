@@ -45,8 +45,8 @@ iam_for_health_lambda = aws.iam.Role(
 )
 
 cloudwatch_role_policy = aws.iam.RolePolicy("cloudwatchRolePolicy",
-    role=cloudwatch_role.id,
-    policy="""{
+                                            role=cloudwatch_role.id,
+                                            policy="""{
     "Version": "2012-10-17",
     "Statement": [
         {
@@ -66,7 +66,7 @@ cloudwatch_role_policy = aws.iam.RolePolicy("cloudwatchRolePolicy",
 }
 """)
 
-health_api_gateway_account=aws.apigateway.Account(
+health_api_gateway_account = aws.apigateway.Account(
     "health_api_gateway_account",
     cloudwatch_role_arn=cloudwatch_role.arn
 )
@@ -93,7 +93,7 @@ policy_for_health_lambda_logging = aws.iam.Policy(
     """
 )
 
-## Attach logging policy to IAM Role
+# Attach logging policy to IAM Role
 health_api_gateway_logging_policy_attachment = aws.iam.RolePolicyAttachment(
     "health_api_gateway_logging",
     role=iam_for_health_lambda.name,
@@ -111,16 +111,15 @@ health_lambda = aws.lambda_.Function(
             "foo": "bar"
         }
     ),
-    opts=pulumi.ResourceOptions(depends_on=[health_api_gateway_logging_policy_attachment, health_api_gateway_log_group])
+    opts=pulumi.ResourceOptions(depends_on=[
+                                health_api_gateway_logging_policy_attachment, health_api_gateway_log_group])
 )
-
 
 
 health_api_gateway = aws.apigateway.RestApi(
     "health_apigateway",
 
 )
-
 
 
 health_api_gateway_resource = aws.apigateway.Resource(
@@ -148,7 +147,8 @@ health_lambda_permission = aws.lambda_.Permission(
         action="lambda:InvokeFunction",
         function=health_lambda.name,
         principal="apigateway.amazonaws.com",
-        source_arn=health_api_gateway.execution_arn.apply(lambda execution_arn: f"{execution_arn}/*/*/*")
+        source_arn=health_api_gateway.execution_arn.apply(
+            lambda execution_arn: f"{execution_arn}/*/*/*")
     )
 )
 
@@ -170,7 +170,8 @@ health_api_gateway_deployment = aws.apigateway.Deployment(
     triggers={
         "date": str(datetime.datetime.now())
     },
-    opts=pulumi.ResourceOptions(depends_on=[health_api_gateway_method, health_api_gateway_integration])
+    opts=pulumi.ResourceOptions(
+        depends_on=[health_api_gateway_method, health_api_gateway_integration])
 )
 
 health_api_gateway_stage = aws.apigateway.Stage(
@@ -181,8 +182,8 @@ health_api_gateway_stage = aws.apigateway.Stage(
     xray_tracing_enabled=True
 )
 
-health_api_gateway_method_settings=aws.apigateway.MethodSettings(
-    "health_api_gatewqay_method_sttings_all",
+health_api_gateway_method_settings = aws.apigateway.MethodSettings(
+    "health_api_gateway_method_settings_all",
     rest_api=health_api_gateway.id,
     stage_name=health_api_gateway_stage.stage_name,
     method_path="*/*",
