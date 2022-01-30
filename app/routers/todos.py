@@ -17,10 +17,8 @@ async def get_todo_by_id(id: str):
     return {"title": "I need to do this"}
 
 
-
 @router.get("/")
 async def get_todos(todo_service: TodoService = Depends(TodoService)) -> GetTodosResponse:
     todos = await todo_service.get_todos()
-
 
     return GetTodosResponse(**{"todos": todos})

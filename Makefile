@@ -23,3 +23,7 @@ bundle:
 	(cd dist && zip -r lambda.zip . -x \**/__pycache__/\*)
 	find ./dist ! -name 'lambda.zip' -type f -exec rm -f {} +
 	find ./dist/* ! -name 'lambda.zip' -type d -exec rm -rf {} +
+
+lint:
+	@echo Linting files
+	@autopep8 --recursive --in-place ./app

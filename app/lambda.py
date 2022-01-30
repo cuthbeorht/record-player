@@ -1,6 +1,7 @@
 from app import create_app
 from mangum import Mangum
 
+
 def handler(event, context):
     app = create_app()
 
