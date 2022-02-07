@@ -134,3 +134,4 @@ dmypy.json
 recordings/
 
 Pulumi.*.yaml
+data/

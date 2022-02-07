@@ -1,4 +1,5 @@
-import os, pprint
+import os
+import pprint
 from logging.config import fileConfig
 
 from sqlalchemy import engine_from_config, create_engine
@@ -27,10 +28,12 @@ target_metadata = None
 # my_important_option = config.get_main_option("my_important_option")
 # ... etc.
 
+
 def get_connection_url() -> str:
     config = Config()
 
     return f"postgresql://{config.sql_username}:{config.sql_password}@{config.sql_host}:{config.sql_port}/{config.sql_database_name}"
+
 
 def run_migrations_offline():
     """Run migrations in 'offline' mode.

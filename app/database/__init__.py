@@ -29,4 +29,3 @@ class DatabaseConnection:
 
     def _connect(self):
         self.connection = self.engine.connect()
-
