@@ -3,7 +3,7 @@ import datetime
 from fastapi import APIRouter, Depends, Response
 
 from app.services.todos import Service as TodoService, TodoBase
-from typing import List
+from typing import List, Any
 from pydantic import BaseModel
 from app.dependencies import todo_service
 
@@ -18,7 +18,7 @@ class CreateTodoRequest(BaseModel):
     title: str
     description: str
     created_by: str
-    created: datetime.datetime.utcnow()
+    created: Any = datetime.datetime.utcnow()
 
 
 class CreateTodoResponse(BaseModel):
@@ -26,7 +26,7 @@ class CreateTodoResponse(BaseModel):
     title: str
     description: str
     created_by: str
-    created: datetime.datetime.utcnow()
+    created: Any = datetime.datetime.utcnow()
 
 
 @router.get("/{id}")
