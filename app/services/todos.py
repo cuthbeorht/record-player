@@ -6,7 +6,7 @@ from datetime import datetime
 class TodoBase(BaseModel):
     title: str
     description: Optional[str]
-    date_created: datetime = datetime.now()
+    created: datetime = datetime.now()
     created_by: Optional[str]
 
 

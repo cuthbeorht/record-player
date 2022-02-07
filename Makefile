@@ -27,3 +27,11 @@ bundle:
 lint:
 	@echo Linting files
 	@autopep8 --recursive --in-place ./app
+
+db-upgrade:
+	@echo Upgrading configured database to HEAD
+	@alembic upgrade head
+
+db-downgrade:
+	@echo Downgrading configured database to BASE
+	@alembic downgrade base
