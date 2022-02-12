@@ -135,3 +135,6 @@ recordings/
 
 Pulumi.*.yaml
 data/
+
+*/.terraform/*
+*.tfstate*

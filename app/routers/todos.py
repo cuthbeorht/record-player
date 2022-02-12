@@ -5,7 +5,7 @@ from fastapi import APIRouter, Depends, Response
 from app.services.todos import Service as TodoService, TodoBase
 from typing import List, Any
 from pydantic import BaseModel
-from app.dependencies import todo_service
+from app import dependencies
 
 router = APIRouter()
 
@@ -35,7 +35,7 @@ async def get_todo_by_id(id: str):
 
 
 @router.get("/")
-async def get_todos(todo_service: TodoService = Depends(todo_service)) -> GetTodosResponse:
+async def get_todos(todo_service: TodoService = Depends(dependencies.todo_service)) -> GetTodosResponse:
     todos = await todo_service.get_todos()
 
     return GetTodosResponse(**{"todos": todos})
@@ -48,7 +48,7 @@ async def get_todos(todo_service: TodoService = Depends(todo_service)) -> GetTod
 )
 async def create_todo_item(
     request: CreateTodoRequest,
-    todo_service: TodoService = Depends(todo_service)
+    todo_service: TodoService = Depends(dependencies.todo_service)
 ) -> CreateTodoResponse:
     return CreateTodoResponse(
         id=1,
