@@ -35,3 +35,23 @@ db-upgrade:
 db-downgrade:
 	@echo Downgrading configured database to BASE
 	@alembic downgrade base
+
+terraform-validate:
+	@echo "Validating Terraform"
+	@terraform -chdir=terraform validate
+
+terraform-format: terraform-validate
+	@echo "Formatting Terraform files"
+	@terraform -chdir=terraform fmt
+
+
+terraform: terraform-format
+	@echo Running Terraform
+
+aws-deploy: terraform
+	@echo "Deploying Terraform to AWS Account"
+	@terraform -chdir=terraform apply
+
+aws-undeploy:
+	@echo "Undeploy AWS"
+	@terraform -chdir=terraform destroy
