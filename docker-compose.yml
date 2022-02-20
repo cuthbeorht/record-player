@@ -8,3 +8,13 @@ services:
       - POSTGRES_DB=todo
     ports:
       - 5432:5432
+
+  todo-webapp:
+    image: webapp:latest
+    environment:
+      - SQL_HOST=postgres
+      - SQL_USERNAME=root
+      - SQL_PASSWORD=toor
+      - SQL_DATABASE_NAME=todo
+      - SQL_PORT=5432
+      - SQL_SCHEMA=public
