@@ -18,3 +18,5 @@ services:
       - SQL_DATABASE_NAME=todo
       - SQL_PORT=5432
       - SQL_SCHEMA=public
+    ports:
+      - "8080:80"

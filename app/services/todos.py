@@ -29,14 +29,14 @@ class Service:
     This is the recording service.
     """
 
-    def __init__(self, database):
+    def __init__(self, repository):
         """
         Creates an instance of the Recording Service class with a connection to the
         database.
 
         :param database:
         """
-        self.db = database
+        self.repository = repository
 
     async def get_todos(self) -> List[GetTodoOutput]:
         """
