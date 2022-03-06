@@ -1,6 +1,18 @@
+help:
+	@echo MAKE Application values
+	@echo
+	@echo "versions:		Displays the versions of the PIP and Python3 being used"
+	@echo "deps: 			Install and freeze application requirements"
+	@echo "clean:			Cleans up cache files. **NOT CURRENTLY USED**"
+	@echo "run-dev:		Runs the application locally using uvicorn on default host and ports"
+	@echo "test-unit:		Run unit tests found in ./tests"
+	@echo "bundle: 		Create bundlw to AWS Lambda **TO BE DEPRECATED**"
+	@echo "			Bundle has become to large to deploy directly to AWS Lambda"
+	@echo "lint:			Lint the code"
+
 versions:
-	which pip
-	which python3
+	@which pip
+	@which python3
 
 deps:
 	pip install -r requirements.txt
