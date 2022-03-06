@@ -58,7 +58,7 @@ class Service:
                 created=todo.created
             ))
 
-        return GetTodosOutput(todos=[])
+        return GetTodosOutput(todos=todos_output)
 
     async def create_item(self, create_todo_request: CreateTodoInput) -> CreateTodoOutput:
         """
