@@ -13,10 +13,12 @@ async def database() -> DatabaseConnection:
 # Todo Related dependencies
 
 
-async def todo_service(database_connection: DatabaseConnection = Depends(database)) -> TodoService:
-
-    return TodoService(database_connection)
-
-
 async def todo_repository(db: DatabaseConnection = Depends(database)) -> TodoRepository:
     return TodoRepository(db)
+
+async def todo_service(repository: TodoRepository = Depends(todo_repository)) -> TodoService:
+
+    return TodoService(repository)
+
+
+

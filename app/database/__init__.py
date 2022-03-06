@@ -27,8 +27,6 @@ class DatabaseConnection:
             future=True
         )
 
-        print(f"Debug info: {self.engine.pool.status()}")
-
 
 T = type('T')
 
@@ -38,5 +36,5 @@ class Repository:
 
     """
 
-    def find_one(self, entity: Any, filter: Dict[str, Any]) -> Any:
+    async def find_one(self, entity: Any, filter: Dict[str, Any]) -> Any:
         raise NotImplemented

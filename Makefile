@@ -26,7 +26,7 @@ bundle:
 
 lint:
 	@echo Linting files
-	@autopep8 --recursive --in-place ./app
+	@autopep8 --recursive --in-place ./app ./tests
 
 db-upgrade:
 	@echo Upgrading configured database to HEAD
