@@ -1,6 +1,9 @@
+from typing import Any, Dict
+
 from sqlalchemy.ext.asyncio import create_async_engine
 
 from app.config import Config
+from app.models import Base
 
 
 class DatabaseConnection:
@@ -12,7 +15,6 @@ class DatabaseConnection:
         self.config = config
 
         self._create_engine()
-        self._connect()
 
     def _create_engine(self):
         """
@@ -25,7 +27,14 @@ class DatabaseConnection:
             future=True
         )
 
-        print(f"Debug info: {self.engine.pool.status()}")
 
-    def _connect(self):
-        self.connection = self.engine.connect()
+T = type('T')
+
+
+class Repository:
+    """
+
+    """
+
+    async def find_one(self, entity: Any, filter: Dict[str, Any]) -> Any:
+        raise NotImplemented

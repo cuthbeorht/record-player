@@ -4,6 +4,7 @@ from fastapi.testclient import TestClient
 app = create_app()
 test_client = TestClient(app)
 
+
 def test_health_endpoint():
     response = test_client.get("/health")
 

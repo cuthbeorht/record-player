@@ -2,16 +2,18 @@ from pydantic import BaseModel
 from typing import List, Optional
 from datetime import datetime
 
+from app.repositories.todos import TodoRepository
+
 
 class TodoBase(BaseModel):
-    title: str
+    title: Optional[str]
     description: Optional[str]
     created: datetime = datetime.now()
     created_by: Optional[str]
 
 
-class GetTodoOutput(TodoBase):
-    pass
+class GetTodosOutput(TodoBase):
+    todos: List[TodoBase]
 
 
 class CreateTodoInput(BaseModel):
@@ -29,27 +31,34 @@ class Service:
     This is the recording service.
     """
 
-    def __init__(self, database):
+    def __init__(self, repository: TodoRepository):
         """
         Creates an instance of the Recording Service class with a connection to the
         database.
 
         :param database:
         """
-        self.db = database
+        self.repository = repository
 
-    async def get_todos(self) -> List[GetTodoOutput]:
+    async def get_todos(self) -> GetTodosOutput:
         """
         Retrieve a list of Todo items
 
         :return: List[Recording]
         """
 
-        todos = [GetTodoOutput(
-            **{"title": "recordings/2021-12-27_19-35-02.mp3"})]
-        print(f"Todos: {todos}")
+        todos_output: List[TodoBase] = []
 
-        return todos
+        todos = await self.repository.find()
+        for todo in todos:
+            todos_output.append(TodoBase(
+                title=todo.title,
+                description=todo.description,
+                created_by=todo.created_by,
+                created=todo.created
+            ))
+
+        return GetTodosOutput(todos=todos_output)
 
     async def create_item(self, create_todo_request: CreateTodoInput) -> CreateTodoOutput:
         """
@@ -58,8 +67,11 @@ class Service:
         :param create_todo_request:
         :return:
         """
+
+        new_todo_item = self.repository.add(create_todo_request)
+
         return CreateTodoOutput(
-            title=create_todo_request.title,
+            title=new_todo_item,
             description=create_todo_request.description,
             date_created=datetime.now()
         )
