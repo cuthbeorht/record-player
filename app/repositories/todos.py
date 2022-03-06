@@ -18,12 +18,12 @@ class TodoRepository(Repository):
         self._instantiate_session()
 
     def _instantiate_session(self):
-        self.session_factory = sessionmaker(bind=self.db.engine, class_=AsyncSession)
+        self.session_factory = sessionmaker(
+            bind=self.db.engine, class_=AsyncSession)
 
     async def find(self, entity: Todo = None, filter: Dict = None) -> List[Todo]:
 
         todos: List[Todo] = []
-
 
         async with self.session_factory() as session:
             query = select(Todo)

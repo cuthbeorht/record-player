@@ -47,7 +47,7 @@ class Service:
         :return: List[Recording]
         """
 
-        todos_output:List[TodoBase] = []
+        todos_output: List[TodoBase] = []
 
         todos = await self.repository.find()
         for todo in todos:
