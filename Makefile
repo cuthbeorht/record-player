@@ -11,8 +11,8 @@ help:
 	@echo "lint:			Lint the code"
 
 versions:
-	@which pip
-	@which python3
+	pip --version
+	python3 --version
 
 deps:
 	pip install -r requirements.txt
