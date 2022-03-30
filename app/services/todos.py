@@ -6,6 +6,7 @@ from app.repositories.todos import TodoRepository
 
 
 class TodoBase(BaseModel):
+    id: Optional[int]
     title: Optional[str]
     description: Optional[str]
     created: datetime = datetime.now()
@@ -52,6 +53,7 @@ class Service:
         todos = await self.repository.find()
         for todo in todos:
             todos_output.append(TodoBase(
+                id=todo.id,
                 title=todo.title,
                 description=todo.description,
                 created_by=todo.created_by,
@@ -68,10 +70,12 @@ class Service:
         :return:
         """
 
-        new_todo_item = self.repository.add(create_todo_request)
+        new_todo_item = await self.repository.add(create_todo_request)
 
         return CreateTodoOutput(
-            title=new_todo_item,
+            id=new_todo_item.id,
+            created_by=new_todo_item.created_by,
+            title=new_todo_item.title,
             description=create_todo_request.description,
             date_created=datetime.now()
         )

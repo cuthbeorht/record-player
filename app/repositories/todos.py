@@ -1,40 +1,46 @@
+import datetime
 from typing import Dict, Any, List
 
 from fastapi import Depends
 from sqlalchemy import text, insert, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.database import DatabaseConnection, Repository
+from app.database import DatabaseConnection
+from app.models import Base
 from app.models.todo import Todo
 from sqlalchemy.orm import sessionmaker, Session
 
 
-class TodoRepository(Repository):
-    def __init__(self, db: DatabaseConnection):
+class TodoRepository:
+    def __init__(self, session: AsyncSession):
         """
 
         """
-        self.db = db
-        self._instantiate_session()
+        self.session = session
 
-    def _instantiate_session(self):
-        self.session_factory = sessionmaker(
-            bind=self.db.engine, class_=AsyncSession)
-
-    async def find(self, entity: Todo = None, filter: Dict = None) -> List[Todo]:
-
+    async def find(self) -> List[Todo]:
         todos: List[Todo] = []
 
-        async with self.session_factory() as session:
-            query = select(Todo)
-            r = await session.execute(query)
-            cursor = r.scalars()
+        cursor = await self.session.execute(select(Todo))
+        results = cursor.scalars().all()
 
-        for result in cursor:
+        for result in results:
+            print('Results: ', result)
             todos.append(result)
 
         return todos
 
     async def add(self, entity: Any = None) -> Any:
-        async with self.db.engine.begin() as conn:
-            result = await conn.execute(insert(entity))
+
+        todo = Todo(
+            title=entity.title,
+            description=entity.description,
+            created_by=entity.created_by,
+            created=datetime.datetime.now()
+        )
+
+        # result = await session.execute(insert_stmt)
+        self.session.add(todo)
+        await self.session.commit()
+        await self.session.refresh(todo)
+        return todo

@@ -14,3 +14,5 @@ class Todo(Base):
     description = Column(String)
     created_by = Column(String)
     created = Column(TIMESTAMP, default=datetime.now())
+
+    __mapper_args__ = {"eager_defaults": True}
