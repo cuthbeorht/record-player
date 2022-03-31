@@ -1,14 +1,11 @@
 import datetime
-from typing import Dict, Any, List
+from typing import Any, List
 
-from fastapi import Depends
-from sqlalchemy import text, insert, select
+
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.database import DatabaseConnection
-from app.models import Base
 from app.models.todo import Todo
-from sqlalchemy.orm import sessionmaker, Session
 
 
 class TodoRepository:
@@ -22,10 +19,9 @@ class TodoRepository:
         todos: List[Todo] = []
 
         cursor = await self.session.execute(select(Todo))
-        results = cursor.scalars().all()
 
-        for result in results:
-            print('Results: ', result)
+        for result in cursor.scalars():
+            print('Results: ', result.id)
             todos.append(result)
 
         return todos
@@ -39,8 +35,8 @@ class TodoRepository:
             created=datetime.datetime.now()
         )
 
-        # result = await session.execute(insert_stmt)
         self.session.add(todo)
+
         await self.session.commit()
         await self.session.refresh(todo)
         return todo

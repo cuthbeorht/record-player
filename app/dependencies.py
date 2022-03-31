@@ -1,23 +1,17 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.database import DatabaseConnection, async_sessionmaker
-from app.config import Config
+from app.database import async_sessionmaker
 from fastapi import Depends
 
 from app.repositories.todos import TodoRepository
 from app.services.todos import Service as TodoService
 
 
-async def database() -> DatabaseConnection:
-    config = Config()
-    db = DatabaseConnection(config)
-    await db.create_engine()
-    return db
-
-
 async def sql_session() -> AsyncSession:
     async with async_sessionmaker() as session:
         yield session
+
+        await session.close()
 
 
 # Todo Related dependencies
