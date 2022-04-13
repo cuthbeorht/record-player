@@ -9,7 +9,7 @@ class TodoBase(BaseModel):
     id: Optional[int]
     title: Optional[str]
     description: Optional[str]
-    created: datetime = datetime.now()
+    created: Optional[datetime]
     created_by: Optional[str]
 
 
