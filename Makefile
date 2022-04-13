@@ -47,3 +47,7 @@ db-upgrade:
 db-downgrade:
 	@echo Downgrading configured database to BASE
 	@alembic downgrade base
+
+docker-build:
+	@echo Building Docker image
+	@

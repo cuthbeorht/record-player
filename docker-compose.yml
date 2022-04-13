@@ -10,6 +10,9 @@ services:
       - 5432:5432
 
   todo-webapp:
+    build:
+      context: .
+      dockerfile: Dockerfile
     image: webapp:latest
     environment:
       - SQL_HOST=postgres
