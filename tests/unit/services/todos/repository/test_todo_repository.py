@@ -12,6 +12,7 @@ from app.repositories.todos import TodoRepository
 def todos():
     return [Todo(id=1, title='foo', description='bar')]
 
+
 @pytest.fixture()
 def cursor_stub(todos):
     class CursorStub:
@@ -20,13 +21,13 @@ def cursor_stub(todos):
 
     return CursorStub()
 
+
 @pytest.fixture()
 def cursor_stub_empty():
     class CursorStub:
 
         def scalars(self):
             return []
-
 
     return CursorStub()
 
@@ -48,6 +49,7 @@ def session_stub(cursor_stub):
 
     return SessionStub()
 
+
 @pytest.fixture()
 def session_stub_empty(cursor_stub_empty):
     class SessionStub:
@@ -65,6 +67,7 @@ def session_stub_empty(cursor_stub_empty):
 
     return SessionStub()
 
+
 @pytest.mark.asyncio
 async def test_given_todos_find_should_return_todo_items(
     session_stub,
@@ -75,6 +78,7 @@ async def test_given_todos_find_should_return_todo_items(
     result = await repo.find()
 
     assert result == todos
+
 
 @pytest.mark.asyncio
 async def test_given_no_todos_find_should_return_empty_list(
