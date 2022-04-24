@@ -48,6 +48,6 @@ db-downgrade:
 	@echo Downgrading configured database to BASE
 	@alembic downgrade base
 
-docker-build:
+container-build:
 	@echo Building Docker image
-	@
+	@lima nerdctl compose build
