@@ -10,7 +10,10 @@ services:
       - 5432:5432
 
   todo-webapp:
-    image: webapp:latest
+    image: todo-webapp
+    build:
+      dockerfile: ./containers/webapp/Dockerfile
+      context: .
     environment:
       - SQL_HOST=postgres
       - SQL_USERNAME=root
@@ -19,4 +22,4 @@ services:
       - SQL_PORT=5432
       - SQL_SCHEMA=public
     ports:
-      - "8080:80"
+      - "8000:80"
