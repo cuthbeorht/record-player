@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -a
-SQL_HOST="192.168.1.200"
+SQL_HOST="localhost"
 SQL_USERNAME="todo"
 SQL_PASSWORD="odot"
 SQL_DATABASE_NAME="todo"
